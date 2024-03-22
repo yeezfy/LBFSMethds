@@ -1,0 +1,4 @@
+     name     | width*height | mesh num | fracture width | fracture permeability | matrix permeability    | time    |  column
+  x_0.5_LBFS  |      1*2     |    19    |      0.01      |           100         | [[1, 0, 0], [0, 1, 0]] |  1*3000 |   10 (X-axes)
+ x_0.236_LBFS |      1*2     |    19    |      0.01      |           100         | [[1, 0, 0], [0, 1, 0]] |  1*3000 |   5
+ x_0.763_LBFS |      1*2     |    19    |      0.01      |           100         | [[1, 0, 0], [0, 1, 0]] |  1*3000 |   15
