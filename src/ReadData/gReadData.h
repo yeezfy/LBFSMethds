@@ -6,9 +6,9 @@
 #include "../../lib/eigen-3.4/Dense"
 
 namespace GReadData {
-  inline Eigen:: MatrixXd ExtractDataFromCSV(const std::string& filename) {
-    std::ifstream file(filename); // Replace "data.csv" with your CSV file's name
-    if (!file.is_open()) {
+  inline Eigen:: MatrixXd ExtractDataFromCSV(const std::string& filePath) {
+    std::ifstream file(filePath); // file path is the path that store your csv file.
+       if (!file.is_open()) {
       std::cerr << "Failed to open the file." << std::endl;
     }
     std::vector<std::vector<double>> data;
@@ -37,8 +37,8 @@ namespace GReadData {
     return matrixData;
   }
 
-  inline Eigen:: VectorXd ExtractDataFromCSVVector(const std::string& filename) {
-    std::ifstream file(filename);
+  inline Eigen:: VectorXd ExtractDataFromCSVVector(const std::string& filePath) {
+    std::ifstream file(filePath);
     if (!file.is_open()) {
       std::cout<<"Failed to open the file."<<std::endl;
     }
