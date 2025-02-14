@@ -5,18 +5,18 @@ GModelLBFS::GModelLBFS() {}
 GModelLBFS::~GModelLBFS() {}
 
 void GModelLBFS::assembleMatrix(Eigen::SparseMatrix<double>& A, Eigen::VectorXd& b, double delta_t, int step) {
-  Eigen:: MatrixXd cell_center = GReadData::ExtractDataFromCSV("cell_center.csv");
-  Eigen:: MatrixXd cell_info = GReadData::ExtractDataFromCSV("cell_info.csv");
-  Eigen:: MatrixXd face_cell = GReadData::ExtractDataFromCSV("face_cell.csv");
-  Eigen:: MatrixXd face_center = GReadData::ExtractDataFromCSV("face_center.csv");
-  Eigen:: MatrixXd face_info = GReadData::ExtractDataFromCSV("face_info.csv");
-  Eigen:: MatrixXd face_vector = GReadData::ExtractDataFromCSV("face_vector.csv");
-  Eigen:: MatrixXd gradient = GReadData::ExtractDataFromCSV("gradient.csv");
-  Eigen:: MatrixXd velocity = GReadData::ExtractDataFromCSV("velocity.csv");
-  Eigen:: MatrixXd velocity_interface = GReadData::ExtractDataFromCSV("velocity_interface.csv");
-  Eigen:: VectorXd cell_volume = GReadData::ExtractDataFromCSVVector("cell_volume.csv");
-  Eigen:: VectorXd convection_coe = GReadData::ExtractDataFromCSVVector("convection_coe.csv");
-  Eigen:: VectorXd transient_coe = GReadData::ExtractDataFromCSVVector("transient_coe.csv");
+  Eigen:: MatrixXd cell_center = GReadData::ExtractDataFromCSV("F:/2019_hp/CLionProjects/Project/src/Data/cell_center.csv");
+  Eigen:: MatrixXd cell_info = GReadData::ExtractDataFromCSV("F:/2019_hp/CLionProjects/Project/src/Data/cell_info.csv");
+  Eigen:: MatrixXd face_cell = GReadData::ExtractDataFromCSV("F:/2019_hp/CLionProjects/Project/src/Data/face_cell.csv");
+  Eigen:: MatrixXd face_center = GReadData::ExtractDataFromCSV("F:/2019_hp/CLionProjects/Project/src/Data/face_center.csv");
+  Eigen:: MatrixXd face_info = GReadData::ExtractDataFromCSV("F:/2019_hp/CLionProjects/Project/src/Data/face_info.csv");
+  Eigen:: MatrixXd face_vector = GReadData::ExtractDataFromCSV("F:/2019_hp/CLionProjects/Project/src/Data/face_vector.csv");
+  Eigen:: MatrixXd gradient = GReadData::ExtractDataFromCSV("F:/2019_hp/CLionProjects/Project/src/Data/gradient.csv");
+  Eigen:: MatrixXd velocity = GReadData::ExtractDataFromCSV("F:/2019_hp/CLionProjects/Project/src/Data/velocity.csv");
+  Eigen:: MatrixXd velocity_interface = GReadData::ExtractDataFromCSV("F:/2019_hp/CLionProjects/Project/src/Data/velocity_interface.csv");
+  Eigen:: VectorXd cell_volume = GReadData::ExtractDataFromCSVVector("F:/2019_hp/CLionProjects/Project/src/Data/cell_volume.csv");
+  Eigen:: VectorXd convection_coe = GReadData::ExtractDataFromCSVVector("F:/2019_hp/CLionProjects/Project/src/Data/convection_coe.csv");
+  Eigen:: VectorXd transient_coe = GReadData::ExtractDataFromCSVVector("F:/2019_hp/CLionProjects/Project/src/Data/transient_coe.csv");
 
   int cell_num{(int)cell_center.rows()};
   int face_num{(int)face_center.rows()};
@@ -81,7 +81,7 @@ void GModelLBFS::assembleMatrix(Eigen::SparseMatrix<double>& A, Eigen::VectorXd&
       Eigen::Vector3d scalar_fc{scalar_lm};
       Eigen::Vector3d face_center_1{face_center.row(i)};
       scalar_fc(2) += (face_center_1 - location_lm).dot(gradient_lm);
-      Eigen::Vector3d flux_convection{convection_coe(i) * scalar_fc * velocity_fc.dot(face_vector.row(i))};
+      Eigen::Vector3d flux_convection{convection_coe(cell_0) * scalar_fc * velocity_fc.dot(face_vector.row(i))};
       flux_face += flux_convection;
 
       sparse_triplet.emplace_back(cell_0, cell_0, flux_face(0));
@@ -106,7 +106,8 @@ void GModelLBFS::assembleMatrix(Eigen::SparseMatrix<double>& A, Eigen::VectorXd&
 
       Eigen::Vector3d flux_face{0.0, 0.0, 0.0};
       Eigen::Vector3d flux_convection{0.0, 0.0, 0.0};
-      double coe{convection_coe(i) * velocity.row(i).dot(face_vector.row(i))};
+      double coe{convection_coe(cell_0) * velocity.row(i).dot(face_vector.row(i))};
+
       if (coe>0) {
         flux_convection(0) = coe;
       } else {
@@ -154,7 +155,7 @@ void GModelLBFS::assembleMatrix(Eigen::SparseMatrix<double>& A, Eigen::VectorXd&
       Eigen::Vector3d flux_face_0{0.0, 0.0, 0.0};
       Eigen::Vector3d flux_convection_0{0.0, 0.0, 0.0};
       auto velocity_0 = velocity_interface.row(cell_0);
-      double coe_0{convection_coe(i) * velocity_0.dot(face_vector.row(i))};
+      double coe_0{convection_coe(cell_0) * velocity_0.dot(face_vector.row(i))};
 
       if (coe_0>0) {
         flux_convection_0(0) = coe_0;
@@ -171,7 +172,7 @@ void GModelLBFS::assembleMatrix(Eigen::SparseMatrix<double>& A, Eigen::VectorXd&
       Eigen::Vector3d flux_face_1{0.0, 0.0, 0.0};
       Eigen::Vector3d flux_convection_1{0.0, 0.0, 0.0};
       auto velocity_1 = velocity_interface.row(cell_1);
-      double coe_1{-1 * convection_coe(i) * velocity_1.dot(face_vector.row(i))};
+      double coe_1{-1 * convection_coe(cell_1) * velocity_1.dot(face_vector.row(i))};
       if (coe_1>0) {
         flux_convection_1(0) = coe_1;
       } else {
@@ -187,7 +188,7 @@ void GModelLBFS::assembleMatrix(Eigen::SparseMatrix<double>& A, Eigen::VectorXd&
       int cell_0{(int) face_cell.row(i)(0)};
       Eigen::Vector3d flux_face{0.0, 0.0, 0.0};
       Eigen::Vector3d flux_convection{0.0, 0.0, 0.0};
-      double coe{convection_coe(i) * velocity.row(i).dot(face_vector.row(i))};
+      double coe{convection_coe(cell_0) * velocity.row(i).dot(face_vector.row(i))};
       if (coe>0) {
         flux_convection(0) = coe;
       } else {
@@ -201,7 +202,7 @@ void GModelLBFS::assembleMatrix(Eigen::SparseMatrix<double>& A, Eigen::VectorXd&
 
   for (int i=0; i!=cell_num; ++i) {
     double coe_source{0.0};
-    GFVMDiscreter::sourceTerm(cell_info.col(i)(0), coe_source);
+    GFVMDiscreter::sourceTerm(cell_info.row(i)(0), coe_source);
     b(i) += coe_source;
 
     double coe_transient{0.0};
