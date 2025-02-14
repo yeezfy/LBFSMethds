@@ -5,18 +5,18 @@ GModelLBFS::GModelLBFS() {}
 GModelLBFS::~GModelLBFS() {}
 
 void GModelLBFS::assembleMatrix(Eigen::SparseMatrix<double>& A, Eigen::VectorXd& b, double delta_t, int step) {
-  Eigen:: MatrixXd cell_center = GReadData::ExtractDataFromCSV("F:/2019_hp/CLionProjects/Project/src/Data/cell_center.csv");
-  Eigen:: MatrixXd cell_info = GReadData::ExtractDataFromCSV("F:/2019_hp/CLionProjects/Project/src/Data/cell_info.csv");
-  Eigen:: MatrixXd face_cell = GReadData::ExtractDataFromCSV("F:/2019_hp/CLionProjects/Project/src/Data/face_cell.csv");
-  Eigen:: MatrixXd face_center = GReadData::ExtractDataFromCSV("F:/2019_hp/CLionProjects/Project/src/Data/face_center.csv");
-  Eigen:: MatrixXd face_info = GReadData::ExtractDataFromCSV("F:/2019_hp/CLionProjects/Project/src/Data/face_info.csv");
-  Eigen:: MatrixXd face_vector = GReadData::ExtractDataFromCSV("F:/2019_hp/CLionProjects/Project/src/Data/face_vector.csv");
-  Eigen:: MatrixXd gradient = GReadData::ExtractDataFromCSV("F:/2019_hp/CLionProjects/Project/src/Data/gradient.csv");
-  Eigen:: MatrixXd velocity = GReadData::ExtractDataFromCSV("F:/2019_hp/CLionProjects/Project/src/Data/velocity.csv");
-  Eigen:: MatrixXd velocity_interface = GReadData::ExtractDataFromCSV("F:/2019_hp/CLionProjects/Project/src/Data/velocity_interface.csv");
-  Eigen:: VectorXd cell_volume = GReadData::ExtractDataFromCSVVector("F:/2019_hp/CLionProjects/Project/src/Data/cell_volume.csv");
-  Eigen:: VectorXd convection_coe = GReadData::ExtractDataFromCSVVector("F:/2019_hp/CLionProjects/Project/src/Data/convection_coe.csv");
-  Eigen:: VectorXd transient_coe = GReadData::ExtractDataFromCSVVector("F:/2019_hp/CLionProjects/Project/src/Data/transient_coe.csv");
+  Eigen:: MatrixXd cell_center = GReadData::ExtractDataFromCSV("F:/LBFSMethods/Project/src/Data/cell_center.csv");
+  Eigen:: MatrixXd cell_info = GReadData::ExtractDataFromCSV("F:/LBFSMethods/Project/src/Data/cell_info.csv");
+  Eigen:: MatrixXd face_cell = GReadData::ExtractDataFromCSV("F:/LBFSMethods/Project/src/Data/face_cell.csv");
+  Eigen:: MatrixXd face_center = GReadData::ExtractDataFromCSV("F:/LBFSMethods/Project/src/Data/face_center.csv");
+  Eigen:: MatrixXd face_info = GReadData::ExtractDataFromCSV("F:/LBFSMethods/Project/src/Data/face_info.csv");
+  Eigen:: MatrixXd face_vector = GReadData::ExtractDataFromCSV("F:/LBFSMethods/Project/src/Data/face_vector.csv");
+  Eigen:: MatrixXd gradient = GReadData::ExtractDataFromCSV("F:/LBFSMethods/Project/src/Data/gradient.csv");
+  Eigen:: MatrixXd velocity = GReadData::ExtractDataFromCSV("F:/LBFSMethods/Project/src/Data/velocity.csv");
+  Eigen:: MatrixXd velocity_interface = GReadData::ExtractDataFromCSV("F:/LBFSMethods/Project/src/Data/velocity_interface.csv");
+  Eigen:: VectorXd cell_volume = GReadData::ExtractDataFromCSVVector("F:/LBFSMethods/Project/src/Data/cell_volume.csv");
+  Eigen:: VectorXd convection_coe = GReadData::ExtractDataFromCSVVector("F:/LBFSMethods/Project/src/Data/convection_coe.csv");
+  Eigen:: VectorXd transient_coe = GReadData::ExtractDataFromCSVVector("F:/LBFSMethods/Project/src/Data/transient_coe.csv");
 
   int cell_num{(int)cell_center.rows()};
   int face_num{(int)face_center.rows()};
