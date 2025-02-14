@@ -4,11 +4,11 @@
 #include "../lib/eigen-3.4/Sparse"
 
 int main(int argc, char* argv[]) {
-  Eigen:: MatrixXd cell_center = GReadData::ExtractDataFromCSV("cell_center.csv");
+  Eigen:: MatrixXd cell_center = GReadData::ExtractDataFromCSV("F:/LBFSMethods/Project/src/Data/cell_center.csv");
   int cell_num{(int)cell_center.rows()};
   Eigen::VectorXd fai_;
   fai_.resize(cell_num);
-  fai_ = GReadData::ExtractDataFromCSV("initial_info.csv");
+  fai_ = GReadData::ExtractDataFromCSVVector("F:/LBFSMethods/Project/src/Data/initial_info.csv");
   Eigen::SparseMatrix<double> A;
   A.resize(cell_num, cell_num);
   A.setZero();
